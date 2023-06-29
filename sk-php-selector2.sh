@@ -1,6 +1,6 @@
 #!/bin/bash
 # Skamasle PHP SELECTOR for vesta
-# version = beta 0.4.1
+# version = beta 0.4.2
 # From skamasle.com
 # Run at your risk.
 sistema=$(grep -o "[0-9]" /etc/redhat-release |head -n1)
@@ -38,6 +38,32 @@ chmod +x /usr/local/vesta/data/templates/web/httpd/sk-php${1}.sh
 tput setaf 1
 echo "PHP ${1} Ready!"
 tput sgr0
+}
+function phpinstall82 () {
+ver=8.2
+if [ $actual = $ver ];then
+echo "Skip PHP 8.2 actually installed"
+else
+tput setaf 2
+echo "Installing PHP 8.2"
+yum install -y php82-php-imap php82-php-process php82-php-pspell php82-php-xml php82-php-xmlrpc php82-php-pdo php82-php-ldap php82-php-pecl-zip php82-php-common php82-php php82-php-mcrypt php82-php-gmp php82-php-mysqlnd php82-php-mbstring php82-php-gd php82-php-tidy php82-php-pecl-memcache --enablerepo=remi  >> $sklog
+echo "......."
+
+fixit 82
+fi
+}
+function phpinstall81 () {
+ver=8.1
+if [ $actual = $ver ];then
+echo "Skip PHP 8.1 actually installed"
+else
+tput setaf 2
+echo "Installing PHP 8.1"
+yum install -y php81-php-imap php81-php-process php81-php-pspell php81-php-xml php81-php-xmlrpc php81-php-pdo php81-php-ldap php81-php-pecl-zip php81-php-common php81-php php81-php-mcrypt php81-php-gmp php81-php-mysqlnd php81-php-mbstring php81-php-gd php81-php-tidy php81-php-pecl-memcache --enablerepo=remi  >> $sklog
+echo "......."
+
+fixit 81
+fi
 }
 function phpinstall80 () {
 ver=8.0
@@ -168,9 +194,11 @@ tput sgr0
 	phpinstall70
 	phpinstall71
 	phpinstall72
-    phpinstall73
-    phpinstall74
-    phpinstall80
+        phpinstall73
+        phpinstall74
+        phpinstall80
+	phpinstall81
+        phpinstall82
 }
 usage () {
 tput setaf 1
@@ -184,9 +212,9 @@ tput setaf 1
 tput sgr0
 echo "bash $0 all"
 tput setaf 1
-    echo "###############################################"
-	echo "Supported Versions: 54, 55, 56, 70, 71, 72, 73, 80"
-    echo "###############################################"
+    echo "#######################################################"
+	echo "Supported Versions: 54, 55, 56, 70, 71, 72, 73, 80, 81, 82"
+    echo "#######################################################"
 tput sgr0
 }
 
@@ -214,9 +242,11 @@ tput sgr0
 			php70) phpinstall70 ;;
 			php71) phpinstall71 ;;
 			php72) phpinstall72 ;;
-            php73) phpinstall73 ;;
-            php74) phpinstall74 ;;
-            php80) phpinstall80 ;;
+                        php73) phpinstall73 ;;
+                        php74) phpinstall74 ;;
+                        php80) phpinstall80 ;;
+			php81) phpinstall81 ;;
+                        php82) phpinstall82 ;;
 			all) all ;;
 	  esac
 done
